@@ -8,54 +8,54 @@ endm
 .model small 
 .stack 100h
 .data 
-; ------------- RETAINED DATA SECTION -------------
+; ------------- DATA SECTION -------------
 project_title db "CS DEPARTMENT ROOM TIMETABLE$"
 
 ; Login credentials
-PSWRD1 DB 'studentlgu@gmail.com'    ; Email login
-BUFF1  DB 20 DUP(?)                 ; Email buffer
-MSG11  DB 'LOGIN: $'
-MSG12  DB 'INCORRECT LOGIN!$'
-MSG13  DB 'CORRECT LOGIN!$'
+EML DB 'studentlgu@gmail.com'    ; Email login
+EMLBUFF  DB 20 DUP(?)            ; Email buffer
+LOG_MSG  DB 'LOGIN: $'
+INCORRECT_LOG  DB 'INCORRECT LOGIN!$'
+CORRECT_LOG  DB 'CORRECT LOGIN!$'
 
 PSWRD  DB 'studilgu'                ; Password
 BUFF   DB 20 DUP(?)                 ; Password buffer
-MSG1   DB 'ENTER YOUR PASSWORD: $'
-MSG2   DB 'WRONG PASSWORD!$'
-MSG3   DB 'CORRECT PASSWORD!$'
+PASS_INPUT   DB 'ENTER YOUR PASSWORD: $'
+WRONG_PASS   DB 'WRONG PASSWORD!$'
+CORRECT_PASS   DB 'CORRECT PASSWORD!$'
 
-; Room information messages
+; Informational messages
 choice db "ENTER YOUR CHOICE (1-Room Timetable, 2-Exit): $"
 room_msg db "CS DEPARTMENT ROOM TIMETABLE$"
 
 ; Room timetable data
-ttttt db "MONDAY$"
-ttttt1 db "LECTURE NO : 1 58-OB - Programming Fundamentals$"
-ttttt2 db "LECTURE NO : 2 FREE $"
-ttttt3 db "LECTURE NO : 3 12-NB - Data Structures$"
-ttttt4 db "TUESDAY$"
-ttttt5 db "LECTURE NO : 1 FREE $"
-ttttt6 db "LECTURE NO : 2 91-OB - Object Oriented Programming$"
-ttttt7 db "LECTURE NO : 3 12-NB - Database Systems$"
-ttttt8 db "WEDNESDAY$"
-ttttt9 db "LECTURE NO : 1 38-OB - Computer Networks$"
-ttttt10 db "LECTURE NO : 2 FREE $"
-ttttt11 db "LECTURE NO : 3 32-NB - Operating Systems$"
-ttttt12 db "THURSDAY$"
-ttttt13 db "LECTURE NO : 1 5-OB - Software Engineering$"
-ttttt14 db "LECTURE NO : 2 FREE $"
-ttttt15 db "LECTURE NO : 3 19-NB - Web Technologies$"
-ttttt16 db "FRIDAY$"
-ttttt17 db "LECTURE NO : 1 58-OB - Artificial Intelligence$"
-ttttt18 db "LECTURE NO : 2 FREE $"
-ttttt19 db "LECTURE NO : 3 12-NB - Machine Learning$"
-ttttt20 db "SATURDAY$"
-ttttt21 db "ALL SLOTS FREE $"
-ttttt22 db "SUNDAY$"
-ttttt23 db "ALL SLOTS FREE$"
+monday db "MONDAY$"
+monday1 db "LECTURE NO : 1 58-OB - Programming Fundamentals$"
+monday2 db "LECTURE NO : 2 FREE $"
+monday3 db "LECTURE NO : 3 12-NB - Data Structures$"
+tuesday db "TUESDAY$"
+tuesday1 db "LECTURE NO : 1 FREE $"
+tuesday2 db "LECTURE NO : 2 91-OB - Object Oriented Programming$"
+tuesday3 db "LECTURE NO : 3 12-NB - Database Systems$"
+wednesday db "WEDNESDAY$"
+wednesday1 db "LECTURE NO : 1 38-OB - Computer Networks$"
+wednesday2 db "LECTURE NO : 2 FREE $"
+wednesday3 db "LECTURE NO : 3 32-NB - Operating Systems$"
+thursday db "THURSDAY$"
+thursday1 db "LECTURE NO : 1 5-OB - Software Engineering$"
+thursday2 db "LECTURE NO : 2 FREE $"
+thursday3 db "LECTURE NO : 3 19-NB - Web Technologies$"
+friday db "FRIDAY$"
+friday1 db "LECTURE NO : 1 58-OB - Artificial Intelligence$"
+friday2 db "LECTURE NO : 2 FREE $"
+friday3 db "LECTURE NO : 3 12-NB - Machine Learning$"
+saturday db "SATURDAY$"
+saturday1 db "ALL SLOTS FREE $"
+sunday db "SUNDAY$"
+sunday1 db "ALL SLOTS FREE$"
 
-mmmm db "PRESS 1 GO BACK TO MENU $"
-mmmm1 db "PRESS 2 EXIT$"
+GO_BACK db "PRESS 1 GO BACK TO MENU $"
+EXIT_MSG db "PRESS 2 EXIT$"
 
 .code
 main proc 
@@ -66,10 +66,10 @@ main proc
     call newline
     
     ; First authentication - Email
-    LEA SI,PSWRD1
-    LEA DI,BUFF1
+    LEA SI,EML
+    LEA DI,EMLBUFF
     MOV AH,9
-    LEA DX,MSG11
+    LEA DX,LOG_MSG
     INT 21H
     
     MOV CX,20
@@ -83,8 +83,8 @@ email_input:
     INT 21H
     LOOP email_input
     
-    LEA SI,PSWRD1
-    LEA DI,BUFF1
+    LEA SI,EML
+    LEA DI,EMLBUFF
     MOV CX,20
     MOV BX,0
     
@@ -99,13 +99,13 @@ verify_email:
     
     call newline
     MOV AH,9
-    LEA DX,MSG13
+    LEA DX,CORRECT_LOG
     INT 21H
     jmp password_check
     
 login_failed:
     MOV AH,9
-    LEA DX,MSG12
+    LEA DX,INCORRECT_LOG
     INT 21H
     mov ah,4ch
     int 21h
@@ -115,7 +115,7 @@ password_check:
     LEA SI,PSWRD
     LEA DI,BUFF
     MOV AH,9
-    LEA DX,MSG1
+    LEA DX,PASS_INPUT
     INT 21H
     
     MOV CX,8
@@ -145,13 +145,13 @@ verify_password:
     
     call newline
     MOV AH,9
-    LEA DX,MSG3
+    LEA DX,CORRECT_PASS
     INT 21H
     JMP main_menu
 
 password_failed:
     MOV AH,9
-    LEA DX,MSG2
+    LEA DX,WRONG_PASS
     INT 21H
     mov ah,4ch
     int 21h
@@ -173,58 +173,58 @@ main_menu:
     
 display_timetable:
     call newline
-    print ttttt    ; Monday
+    print monday    ; Monday
     call newline
-    print ttttt1
+    print monday1
     call newline
-    print ttttt2
+    print monday2
     call newline
-    print ttttt3
+    print monday3
     call newline
-    print ttttt4   ; Tuesday
+    print tuesday   ; Tuesday
     call newline
-    print ttttt5
+    print tuesday1
     call newline
-    print ttttt6
+    print tuesday2
     call newline
-    print ttttt7
+    print tuesday3
     call newline
-    print ttttt8   ; Wednesday
+    print wednesday   ; Wednesday
     call newline
-    print ttttt9
+    print wednesday1
     call newline
-    print ttttt10
+    print wednesday2
     call newline
-    print ttttt11
+    print wednesday3
     call newline
-    print ttttt12  ; Thursday
+    print thursday  ; Thursday
     call newline
-    print ttttt13
+    print thursday1
     call newline
-    print ttttt14
+    print thursday2
     call newline
-    print ttttt15
+    print thursday3
     call newline
-    print ttttt16  ; Friday
+    print friday  ; Friday
     call newline
-    print ttttt17
+    print friday1
     call newline
-    print ttttt18
+    print friday2
     call newline
-    print ttttt19
+    print friday3
     call newline
-    print ttttt20  ; Saturday
+    print saturday  ; Saturday
     call newline
-    print ttttt21
+    print saturday1
     call newline
-    print ttttt22  ; Sunday
+    print sunday  ; Sunday
     call newline
-    print ttttt23
+    print sunday1
     call newline
     
-    print mmmm
+    print GO_BACK
     call newline
-    print mmmm1
+    print EXIT_MSG
     call newline
     print choice
     
